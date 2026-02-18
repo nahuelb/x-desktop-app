@@ -95,7 +95,7 @@ dist/
 # npm lockfile (using pnpm)
 package-lock.json
 
-# Personal writing style (use WRITING_STYLE.example.md as a template)
+# Legacy writing style file (now configured from the UI)
 WRITING_STYLE.md
 
 # Local editor/agent settings (keep local, do not commit)
