@@ -140,7 +140,13 @@ export function App() {
           <ChatInput
             isStreaming={chat.isStreaming}
             onAbort={chat.abort}
-            onSend={(text, images) => chat.sendMessage(text, undefined, images)}
+            onSend={async (text, images) => {
+              const ctx =
+                pageType === "post"
+                  ? ((await extract()) ?? undefined)
+                  : undefined;
+              chat.sendMessage(text, ctx, images);
+            }}
           />
         </div>
       </div>
