@@ -1,0 +1,35 @@
+name: Build and Release
+
+on:
+  release:
+    types: [created]
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build
+        run: pnpm make --arch=arm64 --platform=darwin
+        env:
+          NODE_ENV: production
+
+      - name: Upload to release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: out/make/zip/darwin/arm64/*.zip
