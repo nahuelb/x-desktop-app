@@ -14,6 +14,7 @@ The app embeds X.com in a native window and adds a collapsible sidebar where you
 - **Refine controls** — Improve, shorten, or lengthen drafts with one click
 - **Copy & paste to compose box** — Send drafts directly into X's compose area
 - **Ad-free feed** — Automatically hides promoted/ad tweets from your timeline
+- **Writing style editor** — Customize the AI's voice and tone directly from the sidebar; define your audience, style rules, and reference posts
 - **Model selection** — Choose from all available Claude models via a dropdown in the sidebar footer; your choice persists across sessions
 - **Dark theme** — Matches X.com's dark mode aesthetic
 
@@ -53,7 +54,7 @@ The agent uses the [Claude Agent SDK](https://www.npmjs.com/package/@anthropic-a
 
 By default the agent uses `claude-sonnet-4-6`. You can switch to any available model (Opus, Haiku, etc.) using the model selector at the bottom of the sidebar — your choice is saved to `~/.config/x-app/settings.json` and persists across sessions.
 
-The agent ships with a generic system prompt. To personalize it with your voice, copy `WRITING_STYLE.example.md` to `WRITING_STYLE.md` (gitignored) and fill in your details — the agent loads it automatically at runtime. You can also place it at `~/.config/x-app/WRITING_STYLE.md` to share it across worktrees.
+The agent ships with a generic system prompt. To personalize it with your voice, click the **Style** button in the sidebar header — this opens a built-in editor where you can describe your audience, writing rules, and paste reference posts. Your style is saved to `~/.config/x-app/settings.json` and persists across sessions.
 
 ### Geo Proxy (optional)
 
