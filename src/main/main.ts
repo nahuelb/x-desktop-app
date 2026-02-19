@@ -1,6 +1,6 @@
 import path from "node:path";
 import { config } from "dotenv";
-import { app, globalShortcut, ipcMain, nativeImage } from "electron";
+import { app, globalShortcut, ipcMain, Menu, nativeImage } from "electron";
 import { IPC } from "../shared/types";
 import { destroyGeoProxy } from "./geo-proxy";
 import { registerIpcHandlers } from "./ipc-handlers";
@@ -76,6 +76,29 @@ app.whenReady().then(async () => {
   views.window.on("blur", () => {
     globalShortcut.unregister(TOGGLE_SHORTCUT);
   });
+
+  const defaultMenu = Menu.getApplicationMenu();
+  const menuTemplate = (defaultMenu?.items ?? []).map((topItem) => {
+    if (topItem.label === "View") {
+      return {
+        label: "View",
+        submenu: [
+          {
+            label: "Reload",
+            accelerator: "CmdOrCtrl+R",
+            click: () => views.twitterView.webContents.reload(),
+          },
+          {
+            label: "Force Reload",
+            accelerator: "CmdOrCtrl+Shift+R",
+            click: () => views.twitterView.webContents.reloadIgnoringCache(),
+          },
+        ],
+      };
+    }
+    return topItem;
+  });
+  Menu.setApplicationMenu(Menu.buildFromTemplate(menuTemplate));
 
   ipcMain.handle(IPC.TOGGLE_OVERLAY, toggleOverlay);
 
