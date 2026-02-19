@@ -1,5 +1,7 @@
 # X Desktop App
 
+> **Note:** The AI composing features in this app are designed to help you polish an idea or find better words, especially if you're a non-native English speaker. They are not intended to generate fully AI-written replies or posts. The goal is to help you express *your* thoughts more clearly, not to replace them.
+
 A desktop client for X/Twitter with an AI-powered drafting sidebar. Built with Electron, React, and the Claude Agent SDK.
 
 The app embeds X.com in a native window and adds a collapsible sidebar where you can draft tweets, compose replies with full thread context, and refine your writing — all powered by Claude.
