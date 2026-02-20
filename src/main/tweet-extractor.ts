@@ -50,12 +50,17 @@ const EXTRACT_SCRIPT = `
 })()
 `;
 
-const FOCUS_COMPOSE_SCRIPT = `
+const FOCUS_AND_SELECT_SCRIPT = `
 (function() {
   const box = document.querySelector('[data-testid="tweetTextarea_0"]')
     || document.querySelector('[role="textbox"][contenteditable="true"]');
   if (!box) return false;
   box.focus();
+  const range = document.createRange();
+  range.selectNodeContents(box);
+  const sel = window.getSelection();
+  sel.removeAllRanges();
+  sel.addRange(range);
   return true;
 })()
 `;
@@ -98,13 +103,13 @@ export async function pasteIntoCompose(
   text: string
 ): Promise<boolean> {
   try {
-    const focused =
-      await twitterView.webContents.executeJavaScript(FOCUS_COMPOSE_SCRIPT);
-    if (!focused) {
+    const selected = await twitterView.webContents.executeJavaScript(
+      FOCUS_AND_SELECT_SCRIPT
+    );
+    if (!selected) {
       return false;
     }
 
-    twitterView.webContents.selectAll();
     await twitterView.webContents.insertText(text);
     return true;
   } catch {
