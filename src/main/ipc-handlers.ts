@@ -50,13 +50,18 @@ export function registerIpcHandlers(views: AppViews) {
 
   ipcMain.handle(IPC.CHAT, async (_e, req: ChatRequest) => {
     const onChunk = (text: string) => send(IPC.STREAM_CHUNK, { text });
+
+    // Auto-extract tweet context when on a post page and none was provided
+    let tweetContext = req.tweetContext;
+    if (!tweetContext) {
+      const url = twitterView.webContents.getURL();
+      if (classifyUrl(url) === "post") {
+        tweetContext = (await extractTweetContext(twitterView)) ?? undefined;
+      }
+    }
+
     try {
-      const result = await chat(
-        req.message,
-        onChunk,
-        req.tweetContext,
-        req.images
-      );
+      const result = await chat(req.message, onChunk, tweetContext, req.images);
       send(IPC.STREAM_COMPLETE, {
         fullText: result.fullText,
         sessionId: result.sessionId,
