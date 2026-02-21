@@ -12,16 +12,7 @@ const AD_BLOCK_SCRIPT = `
   window.__adBlockerInjected = true;
 
   function isAdTweet(article) {
-    if (article.querySelector('[data-testid="placementTracking"]')) return true;
-
-    for (const span of article.querySelectorAll('span')) {
-      if (span.textContent?.trim() !== 'Ad') continue;
-      if (span.closest('[data-testid="tweetText"]')) continue;
-      const parent = span.parentElement;
-      if (parent && parent.childElementCount <= 2) return true;
-    }
-
-    return false;
+    return !!article.querySelector('[data-testid="placementTracking"]');
   }
 
   function hideAd(article) {
