@@ -1,18 +1,15 @@
 import type { WebContentsView } from "electron";
 
-const AD_BLOCK_CSS = `
-  article[data-testid="tweet"]:has([data-testid="placementTracking"]) {
-    display: none !important;
-  }
-`;
-
 const AD_BLOCK_SCRIPT = `
 (function() {
   if (window.__adBlockerInjected) return;
   window.__adBlockerInjected = true;
 
   function isAdTweet(article) {
-    return !!article.querySelector('[data-testid="placementTracking"]');
+    for (const el of article.querySelectorAll('[data-testid="placementTracking"]')) {
+      if (!el.closest('[data-testid="tweetPhoto"]')) return true;
+    }
+    return false;
   }
 
   function hideAd(article) {
@@ -49,7 +46,6 @@ export async function injectAdBlocker(
   twitterView: WebContentsView
 ): Promise<void> {
   try {
-    await twitterView.webContents.insertCSS(AD_BLOCK_CSS);
     await twitterView.webContents.executeJavaScript(AD_BLOCK_SCRIPT);
   } catch {
     // Page may not be ready yet
