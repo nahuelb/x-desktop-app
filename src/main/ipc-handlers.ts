@@ -1,4 +1,4 @@
-import { clipboard, ipcMain, type WebContentsView } from "electron";
+import { clipboard, ipcMain } from "electron";
 import type { AppSettings, ChatRequest, PageType } from "../shared/types";
 import { IPC } from "../shared/types";
 import { injectAdBlocker } from "./ad-blocker";
@@ -36,14 +36,6 @@ function classifyUrl(url: string): PageType {
   } catch {
     return "other";
   }
-}
-
-function scrollToTop(view: WebContentsView): void {
-  setTimeout(() => {
-    view.webContents.executeJavaScript("window.scrollTo(0, 0)").catch(() => {
-      // Page may have navigated away before the timer fired
-    });
-  }, 150);
 }
 
 export function registerIpcHandlers(views: AppViews) {
@@ -158,13 +150,8 @@ export function registerIpcHandlers(views: AppViews) {
     saveSettings({ ...current, model });
   });
 
-  const pushPageType = (_e: unknown, url: string) => {
-    const pageType = classifyUrl(url);
-    send(IPC.PAGE_TYPE_CHANGED, { pageType, url });
-    if (pageType === "post") {
-      scrollToTop(twitterView);
-    }
-  };
+  const pushPageType = (_e: unknown, url: string) =>
+    send(IPC.PAGE_TYPE_CHANGED, { pageType: classifyUrl(url), url });
   twitterView.webContents.on("did-navigate-in-page", pushPageType);
   twitterView.webContents.on("did-navigate", (e, url) => {
     pushPageType(e, url);
