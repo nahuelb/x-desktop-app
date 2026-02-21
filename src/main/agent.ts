@@ -91,14 +91,15 @@ function buildPrompt(message: string, tweetContext?: TweetContext): string {
   }
 
   const parts: string[] = [];
+  parts.push("The user is replying to this tweet:");
   if (tweetContext.thread?.length) {
     parts.push("Thread context:");
     for (const t of tweetContext.thread) {
       parts.push(`@${t.author}: ${t.text}`);
     }
   }
-  parts.push(`Tweet by @${tweetContext.author}: ${tweetContext.text}`);
-  parts.push("");
+  parts.push(`@${tweetContext.author}: ${tweetContext.text}`);
+  parts.push("\n---\n");
   parts.push(message);
   return parts.join("\n");
 }
