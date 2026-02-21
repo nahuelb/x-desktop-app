@@ -9,13 +9,13 @@ const COMPOSE_ACTIONS = [
   },
   {
     label: "Polish",
-    instruction: "polish this tweet, make it sharper and more engaging",
+    instruction: "polish this draft, make it sharper and more engaging",
     primary: false,
   },
   {
     label: "Get Feedback",
     instruction:
-      "give me feedback on this tweet. what works, what could be better",
+      "give me feedback on this draft. what works, what could be better",
     primary: false,
   },
   {
