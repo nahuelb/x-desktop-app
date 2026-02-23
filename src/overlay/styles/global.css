@@ -509,14 +509,6 @@ body {
   border-top: 1px solid var(--border);
 }
 
-/* Quick actions */
-.quick-actions {
-  display: flex;
-  gap: 6px;
-  align-items: center;
-  padding: 10px 16px 0;
-}
-
 /* Pill buttons */
 .btn-pill {
   display: inline-flex;

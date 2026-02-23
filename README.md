@@ -2,17 +2,17 @@
 
 > **Note:** The AI composing features in this app are designed to help you polish an idea or find better words, especially if you're a non-native English speaker. They are not intended to generate fully AI-written replies or posts. The goal is to help you express *your* thoughts more clearly, not to replace them.
 
-A desktop client for X/Twitter with an AI-powered drafting sidebar. Built with Electron, React, and the Claude Agent SDK.
+A desktop client for X/Twitter with an AI-powered writing assistant sidebar. Built with Electron, React, and the Claude Agent SDK.
 
-The app embeds X.com in a native window and adds a collapsible sidebar where you can draft tweets, compose replies with full thread context, and refine your writing — all powered by Claude.
+The app embeds X.com in a native window and adds a collapsible sidebar where you can refine and improve your posts — fix grammar, polish tone, get feedback, or explore alternatives — all powered by Claude.
 
 <img src="assets/preview.jpg" alt="App Preview" width="680" />
 
 ## Features
 
 - **Native X.com experience** — Full X.com loaded in an Electron window with persistent session
-- **AI drafting sidebar** — Toggle a sidebar (`Cmd+S`) to draft posts and replies
-- **Thread-aware replies** — Extracts tweet and thread context from the page so Claude can write relevant replies
+- **AI writing assistant** — Toggle a sidebar (`Cmd+S`) to improve, polish, and refine your posts
+- **Context-aware suggestions** — Extracts tweet and thread context from the page so Claude can give relevant feedback and alternatives
 - **Refine controls** — Improve, shorten, or lengthen drafts with one click
 - **Copy & paste to compose box** — Send drafts directly into X's compose area
 - **Ad-free feed** — Automatically hides promoted/ad tweets from your timeline
@@ -90,7 +90,7 @@ On macOS, the SSH agent runs automatically and keys in `~/.ssh/` are loaded on f
 - **Electron** — Desktop shell
 - **React 19** — Sidebar UI
 - **Vite** — Build tooling (via Electron Forge)
-- **Claude Agent SDK** — AI drafting
+- **Claude Agent SDK** — AI writing assistant
 - **TypeScript** — Throughout
 - **Biome** — Linting and formatting (via Ultracite)
 
