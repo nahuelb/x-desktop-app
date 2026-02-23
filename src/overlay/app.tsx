@@ -3,7 +3,6 @@ import { ChatInput } from "./components/chat-input";
 import { ComposeActions } from "./components/compose-actions";
 import { MessageList } from "./components/message-list";
 import { ProxyStatus } from "./components/proxy-status";
-import { QuickActions } from "./components/quick-actions";
 import { WritingStyleEditor } from "./components/writing-style-editor";
 import { useChat } from "./hooks/use-agent";
 import { useAnimatedPresence } from "./hooks/use-animated-presence";
@@ -125,14 +124,6 @@ export function App() {
           onRefine={chat.sendMessage}
         />
         <div className="chat-footer">
-          <div className="quick-actions">
-            <QuickActions
-              extractContext={extract}
-              isOnPost={pageType === "post"}
-              isStreaming={chat.isStreaming}
-              onAction={chat.sendMessage}
-            />
-          </div>
           <ComposeActions
             isStreaming={chat.isStreaming}
             onAction={chat.sendMessage}

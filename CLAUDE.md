@@ -24,13 +24,13 @@ App settings (model, SSH config) persist in `~/.config/x-app/settings.json`. Wri
 
 ## Architecture
 
-Electron desktop client that embeds X.com alongside a React-based AI drafting sidebar. Uses Electron Forge with Vite for building.
+Electron desktop client that embeds X.com alongside a React-based AI writing assistant sidebar. Uses Electron Forge with Vite for building.
 
 ### Process Model
 
 Three Vite entry points configured in `forge.config.ts`:
 
-- **Main process** (`src/main/main.ts`) — Creates a `BaseWindow` with three `WebContentsView`s stacked side-by-side: `twitterView` (X.com with persistent session), `overlayView` (React drafting panel), and `titlebarView` (transparent drag region). `Cmd+Shift+D` toggles overlay visibility.
+- **Main process** (`src/main/main.ts`) — Creates a `BaseWindow` with three `WebContentsView`s stacked side-by-side: `twitterView` (X.com with persistent session), `overlayView` (React writing assistant panel), and `titlebarView` (transparent drag region). `Cmd+Shift+D` toggles overlay visibility.
 - **Preload** (`src/preload/overlay-preload.ts`) — Context bridge exposing `electronAPI` to the overlay renderer. All IPC channels defined in `src/shared/types.ts`.
 - **Renderer** (`src/overlay/`) — React 19 app mounted in the right sidebar overlay.
 
@@ -40,7 +40,7 @@ Renderer calls `window.electronAPI.*` methods → preload forwards via `ipcRende
 
 ### AI Agent (`src/main/agent.ts`)
 
-Uses `@anthropic-ai/claude-agent-sdk` with `claude-sonnet-4-6`. Streams drafts, replies (with extracted tweet context), and refinements (resumes previous session). Budget capped at $0.05 per session, max 3 turns. The system prompt is generic by default; if a `WRITING_STYLE.md` file exists in `~/.config/x-app/` or the project root, it is appended at runtime to personalize the agent's voice.
+Uses `@anthropic-ai/claude-agent-sdk` with `claude-sonnet-4-6`. Streams refinements and writing improvements (with extracted tweet context where available). Budget capped at $0.05 per session, max 3 turns. The system prompt is generic by default; if a `WRITING_STYLE.md` file exists in `~/.config/x-app/` or the project root, it is appended at runtime to personalize the agent's voice.
 
 ### Tweet Extraction & Injection (`src/main/tweet-extractor.ts`)
 
