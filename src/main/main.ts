@@ -2,6 +2,7 @@ import path from "node:path";
 import { config } from "dotenv";
 import { app, globalShortcut, ipcMain, Menu, nativeImage } from "electron";
 import { IPC } from "../shared/types";
+import { setupFindBar } from "./find-bar";
 import { destroyGeoProxy } from "./geo-proxy";
 import { registerIpcHandlers } from "./ipc-handlers";
 import { removePartitionLockFiles } from "./partition-cleanup";
@@ -53,6 +54,7 @@ app.whenReady().then(async () => {
   const savedBounds = loadWindowState();
   const views = await createAppViews(sshHost, sshUser, savedBounds);
   registerIpcHandlers(views);
+  const findBar = setupFindBar(views.window, views.twitterView);
 
   const toggleOverlay = () => {
     overlayVisible = !overlayVisible;
@@ -79,6 +81,26 @@ app.whenReady().then(async () => {
 
   const defaultMenu = Menu.getApplicationMenu();
   const menuTemplate = (defaultMenu?.items ?? []).map((topItem) => {
+    if (topItem.label === "Edit") {
+      return {
+        label: "Edit",
+        submenu: [
+          { role: "undo" as const },
+          { role: "redo" as const },
+          { type: "separator" as const },
+          { role: "cut" as const },
+          { role: "copy" as const },
+          { role: "paste" as const },
+          { role: "selectAll" as const },
+          { type: "separator" as const },
+          {
+            label: "Find\u2026",
+            accelerator: "CmdOrCtrl+F",
+            click: () => findBar.show(),
+          },
+        ],
+      };
+    }
     if (topItem.label === "View") {
       return {
         label: "View",
